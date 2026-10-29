@@ -1,0 +1,6 @@
+{
+  "name": "سوپر اپلیکیشن طنز و کمدی",
+  "description": "استودیوی کامل طنز شامل سناریوساز هوش مصنوعی، دابسمش، تغییر صدا و موزه میم‌ها و افکت‌های صوتی",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
