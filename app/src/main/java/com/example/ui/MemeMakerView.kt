@@ -143,6 +143,23 @@ fun MemeMakerView(
                         .padding(12.dp)
                 )
 
+                // Watermark Branding
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(8.dp),
+                    color = Color.Black.copy(alpha = 0.65f),
+                    shape = RoundedCornerShape(6.dp)
+                ) {
+                    Text(
+                        text = "ساخته‌شده با ComedyPilot 🎭",
+                        color = JoyYellow,
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                    )
+                }
+
                 // Bottom Text Overlay
                 if (bottomText.isNotBlank()) {
                     Box(

@@ -7,23 +7,29 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoAwesome
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Museum
+import androidx.compose.material.icons.filled.Stars
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ai.ComedyScenarioGenerator
 import com.example.audio.SoundEffectsEngine
 import com.example.audio.TextToSpeechEngine
+import com.example.ui.AboutAndEcosystemView
 import com.example.ui.AiScenarioTab
 import com.example.ui.DubsmashStudioTab
+import com.example.ui.LanguageSelector
 import com.example.ui.MemeAndSoundboardTab
+import com.example.ui.OnboardingDialog
+import com.example.ui.RewardsAndXpTab
 import com.example.ui.VoiceChangerTab
 import com.example.ui.theme.*
 
@@ -66,17 +72,40 @@ fun MainContainer(
     scenarioGenerator: ComedyScenarioGenerator
 ) {
     var selectedTab by remember { mutableStateOf(0) }
+    var currentLanguage by remember { mutableStateOf("FA") }
+    var showOnboarding by remember { mutableStateOf(true) }
     val customSavedSounds = remember { mutableStateListOf<String>() }
 
     val tabs = listOf(
         TabItem("سناریو 🤖", Icons.Default.AutoAwesome),
         TabItem("دابسمش 🎬", Icons.Default.Movie),
-        TabItem("تغییر صدا 🎙️", Icons.Default.Mic),
-        TabItem("موزه‌ی میم‌ها 🏛️", Icons.Default.Museum)
+        TabItem("صدا 🎙️", Icons.Default.Mic),
+        TabItem("میم‌ها 🏛️", Icons.Default.Museum),
+        TabItem("پاداش ⚡", Icons.Default.Stars),
+        TabItem("تواناسیتی 🌐", Icons.Default.Info)
     )
+
+    if (showOnboarding) {
+        OnboardingDialog(
+            onDismiss = { showOnboarding = false }
+        )
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+        topBar = {
+            Surface(
+                color = DarkCharcoalBg,
+                modifier = Modifier.padding(top = 28.dp)
+            ) {
+                LanguageSelector(
+                    currentLang = currentLanguage,
+                    onLangChanged = { newLang ->
+                        currentLanguage = newLang
+                    }
+                )
+            }
+        },
         bottomBar = {
             NavigationBar(
                 containerColor = CardDarkBg,
@@ -100,7 +129,7 @@ fun MainContainer(
                         label = {
                             Text(
                                 item.title,
-                                fontSize = 11.sp,
+                                fontSize = 9.sp,
                                 fontWeight = if (isSelected) FontWeight.ExtraBold else FontWeight.Normal,
                                 color = if (isSelected) JoyYellow else Color.Gray
                             )
@@ -136,6 +165,8 @@ fun MainContainer(
                     soundEngine = soundEngine,
                     customSoundList = customSavedSounds
                 )
+                4 -> RewardsAndXpTab()
+                5 -> AboutAndEcosystemView()
             }
         }
     }
